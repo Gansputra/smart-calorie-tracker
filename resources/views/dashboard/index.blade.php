@@ -12,9 +12,7 @@
         <div class="flex items-center gap-3">
             <a href="{{ route('dashboard', ['date' => \Carbon\Carbon::parse($date)->subDay()->format('Y-m-d')]) }}"
                class="p-2 rounded-lg bg-white border border-slate-200 text-slate-500 hover:bg-slate-50">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
+                <i class="fa-solid fa-chevron-left text-xs"></i>
             </a>
             <div class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-700">
                 {{ \Carbon\Carbon::parse($date)->translatedFormat('l, d F Y') }}
@@ -25,25 +23,18 @@
             @if($date !== today()->format('Y-m-d'))
             <a href="{{ route('dashboard', ['date' => \Carbon\Carbon::parse($date)->addDay()->format('Y-m-d')]) }}"
                class="p-2 rounded-lg bg-white border border-slate-200 text-slate-500 hover:bg-slate-50">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
+                <i class="fa-solid fa-chevron-right text-xs"></i>
             </a>
             @endif
         </div>
 
         <div class="flex gap-2">
             <a href="{{ route('scanner.index') }}" class="btn-primary btn-sm text-sm">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
+                <i class="fa-solid fa-camera"></i>
                 Scan AI
             </a>
             <a href="{{ route('food-log.create') }}" class="btn-secondary btn-sm text-sm">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
+                <i class="fa-solid fa-plus"></i>
                 Tambah Manual
             </a>
         </div>
@@ -55,9 +46,7 @@
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 card-hover">
             <div class="flex items-center justify-between mb-3">
                 <div class="w-10 h-10 rounded-xl stat-gradient-green flex items-center justify-center">
-                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
-                    </svg>
+                    <i class="fa-solid fa-fire text-white text-lg"></i>
                 </div>
                 <span class="text-2xl font-bold text-primary-600">{{ $calorie_percentage }}%</span>
             </div>
@@ -76,9 +65,7 @@
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 card-hover">
             <div class="flex items-center justify-between mb-3">
                 <div class="w-10 h-10 rounded-xl stat-gradient-blue flex items-center justify-center">
-                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                    </svg>
+                    <i class="fa-solid fa-flask text-white text-lg"></i>
                 </div>
                 <span class="text-2xl font-bold text-blue-600">{{ $protein_percentage }}%</span>
             </div>
@@ -97,9 +84,7 @@
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 card-hover">
             <div class="flex items-center justify-between mb-3">
                 <div class="w-10 h-10 rounded-xl stat-gradient-orange flex items-center justify-center">
-                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                    </svg>
+                    <i class="fa-solid fa-clipboard-list text-white text-lg"></i>
                 </div>
             </div>
             <p class="text-2xl font-bold text-slate-800">{{ $all_logs->count() }}</p>
@@ -113,9 +98,7 @@
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 card-hover">
             <div class="flex items-center justify-between mb-3">
                 <div class="w-10 h-10 rounded-xl stat-gradient-purple flex items-center justify-center">
-                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
-                    </svg>
+                    <i class="fa-solid fa-weight-scale text-white text-lg"></i>
                 </div>
                 <a href="{{ route('weight-log.index') }}" class="text-xs text-primary-600 hover:underline">+ Catat</a>
             </div>
@@ -137,19 +120,19 @@
         {{-- Meal Summary --}}
         <div class="lg:col-span-1 bg-white rounded-2xl shadow-sm border border-slate-100">
             <div class="p-5 border-b border-slate-100">
-                <h3 class="font-bold text-slate-800">🍽️ Ringkasan Makan</h3>
+                <h3 class="font-bold text-slate-800"><i class="fa-solid fa-utensils mr-1"></i> Ringkasan Makan</h3>
                 <p class="text-xs text-slate-500 mt-0.5">{{ \Carbon\Carbon::parse($date)->translatedFormat('d F Y') }}</p>
             </div>
             <div class="p-5 space-y-4">
                 @php
-                    $mealEmojis = ['Sarapan' => '🌅', 'Makan Siang' => '☀️', 'Makan Malam' => '🌙', 'Camilan' => '🍎'];
+                    $mealIcons = ['Sarapan' => 'fa-solid fa-sun', 'Makan Siang' => 'fa-solid fa-cloud-sun', 'Makan Malam' => 'fa-solid fa-moon', 'Camilan' => 'fa-solid fa-apple-whole'];
                     $mealColors = ['Sarapan' => 'bg-amber-50 text-amber-700', 'Makan Siang' => 'bg-blue-50 text-blue-700', 'Makan Malam' => 'bg-indigo-50 text-indigo-700', 'Camilan' => 'bg-pink-50 text-pink-700'];
                 @endphp
                 @foreach($logs_by_meal as $mealType => $mealData)
                     <div class="rounded-xl {{ $mealData['total_calories'] > 0 ? str_replace('text-', 'border-l-4 border-', $mealColors[$mealType]) . ' pl-3 py-2 pr-2' : '' }}">
                         <div class="flex items-center justify-between">
                             <span class="font-medium text-slate-700 text-sm">
-                                {{ $mealEmojis[$mealType] }} {{ $mealType }}
+                                <i class="{{ $mealIcons[$mealType] }} text-sm"></i> {{ $mealType }}
                             </span>
                             @if($mealData['total_calories'] > 0)
                                 <span class="text-sm font-bold text-slate-600">
@@ -187,7 +170,7 @@
         <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100">
             <div class="p-5 border-b border-slate-100 flex items-center justify-between">
                 <div>
-                    <h3 class="font-bold text-slate-800">📈 Grafik 7 Hari Terakhir</h3>
+                        <h3 class="font-bold text-slate-800"><i class="fa-solid fa-chart-line mr-1"></i> Grafik 7 Hari Terakhir</h3>
                     <p class="text-xs text-slate-500 mt-0.5">Kalori & protein harian</p>
                 </div>
                 <div class="flex gap-4 text-xs text-slate-500">

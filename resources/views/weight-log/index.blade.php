@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Fat Loss Tracker')
-@section('page-title', '⚖️ Fat Loss Tracker')
+@section('page-title')
+    <i class="fa-solid fa-weight-scale mr-1.5"></i> Fat Loss Tracker
+@endsection
 @section('page-subtitle', 'Pantau perkembangan berat badan Anda')
 
 @section('content')
@@ -26,7 +28,15 @@
                     <p class="text-2xl font-bold {{ $weightChange < 0 ? 'text-green-600' : ($weightChange > 0 ? 'text-red-500' : 'text-slate-600') }}">
                         {{ $weightChange > 0 ? '+' : '' }}{{ $weightChange }}<span class="text-sm">kg</span>
                     </p>
-                    <p class="text-xs text-slate-400 mt-1">{{ $weightChange < 0 ? '📉 Turun' : ($weightChange > 0 ? '📈 Naik' : '➡️ Stabil') }}</p>
+                    <p class="text-xs text-slate-400 mt-1">
+                        @if($weightChange < 0)
+                            <i class="fa-solid fa-arrow-trend-down text-green-600"></i> Turun
+                        @elseif($weightChange > 0)
+                            <i class="fa-solid fa-arrow-trend-up text-red-500"></i> Naik
+                        @else
+                            <i class="fa-solid fa-arrow-right text-slate-500"></i> Stabil
+                        @endif
+                    </p>
                 @else
                     <p class="text-lg text-slate-400 font-medium">—</p>
                 @endif
@@ -42,7 +52,7 @@
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100">
             <div class="p-5 border-b border-slate-100 flex items-center justify-between">
                 <div>
-                    <h3 class="font-bold text-slate-800">📈 Grafik Berat Badan</h3>
+                    <h3 class="font-bold text-slate-800"><i class="fa-solid fa-chart-line mr-1"></i> Grafik Berat Badan</h3>
                     <p class="text-xs text-slate-500 mt-0.5">Perkembangan berat badan dari waktu ke waktu</p>
                 </div>
                 <div class="flex gap-1">
@@ -60,7 +70,7 @@
                 @else
                     <div class="h-48 flex items-center justify-center text-slate-400 text-sm">
                         Belum ada data untuk ditampilkan
-                    </div>
+					</div>
                 @endif
             </div>
         </div>
@@ -70,7 +80,7 @@
     <div class="space-y-4">
         {{-- Add Weight Form --}}
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5">
-            <h3 class="font-bold text-slate-800 mb-4">➕ Catat Berat Badan</h3>
+            <h3 class="font-bold text-slate-800 mb-4"><i class="fa-solid fa-plus mr-1"></i> Catat Berat Badan</h3>
             <form method="POST" action="{{ route('weight-log.store') }}" class="space-y-4">
                 @csrf
                 <div>
@@ -93,7 +103,7 @@
                     <input type="text" name="notes" value="{{ old('notes') }}"
                            class="form-input" placeholder="e.g. Setelah olahraga">
                 </div>
-                <button type="submit" class="btn-primary w-full">⚖️ Simpan</button>
+                <button type="submit" class="btn-primary w-full"><i class="fa-solid fa-floppy-disk mr-1"></i> Simpan</button>
             </form>
         </div>
 
@@ -118,9 +128,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg">
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
+                                    <i class="fa-solid fa-trash"></i>
                                 </button>
                             </form>
                         </div>

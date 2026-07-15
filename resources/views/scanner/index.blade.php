@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Scan Makanan AI')
-@section('page-title', '📸 Scan Makanan AI')
+@section('page-title')
+    <i class="fa-solid fa-camera mr-1.5"></i> Scan Makanan AI
+@endsection
 @section('page-subtitle', 'Foto makanan Anda dan biarkan AI mendeteksi kalori & protein secara otomatis')
 
 @section('content')
@@ -33,10 +35,7 @@
 
                     {{-- Placeholder --}}
                     <div id="cameraPlaceholder" class="absolute inset-0 flex flex-col items-center justify-center text-slate-400">
-                        <svg class="w-16 h-16 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
+                        <i class="fa-solid fa-camera text-4xl mb-3"></i>
                         <p class="text-sm font-medium">Kamera atau upload foto</p>
                         <p class="text-xs mt-1">JPEG, PNG, WebP (maks 10MB)</p>
                     </div>
@@ -55,31 +54,22 @@
                 <div class="grid grid-cols-3 gap-2">
                     <button id="btnCamera" type="button"
                             class="flex flex-col items-center gap-1.5 px-3 py-3 bg-slate-50 hover:bg-primary-50 hover:text-primary-700 text-slate-600 rounded-xl text-xs font-medium border border-slate-200 hover:border-primary-200">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.36a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
-                        </svg>
+                        <i class="fa-solid fa-video text-lg"></i>
                         Buka Kamera
                     </button>
                     <button id="btnCapture" type="button" style="display:none;"
                             class="flex flex-col items-center gap-1.5 px-3 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-xl text-xs font-medium">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
+                        <i class="fa-solid fa-camera text-lg"></i>
                         Ambil Foto
                     </button>
                     <label class="flex flex-col items-center gap-1.5 px-3 py-3 bg-slate-50 hover:bg-blue-50 hover:text-blue-700 text-slate-600 rounded-xl text-xs font-medium border border-slate-200 hover:border-blue-200 cursor-pointer">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                        </svg>
+                        <i class="fa-solid fa-cloud-arrow-up text-lg"></i>
                         Upload Foto
                         <input type="file" id="fileInput" accept="image/jpeg,image/jpg,image/png,image/webp" class="hidden">
                     </label>
                     <button id="btnReset" type="button" style="display:none;"
                             class="flex flex-col items-center gap-1.5 px-3 py-3 bg-slate-50 hover:bg-red-50 hover:text-red-600 text-slate-500 rounded-xl text-xs font-medium border border-slate-200">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                        </svg>
+                        <i class="fa-solid fa-arrow-rotate-left text-lg"></i>
                         Reset
                     </button>
                 </div>
@@ -89,9 +79,7 @@
                         class="btn-primary w-full"
                         disabled
                         style="opacity: 0.5; cursor: not-allowed;">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                    </svg>
+                    <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i>
                     Analisis dengan AI
                 </button>
             </div>
@@ -104,18 +92,16 @@
         <div id="resultPanel" class="bg-white rounded-2xl shadow-sm border border-slate-100" style="display:none;">
             <div class="p-5 border-b border-slate-100">
                 <div class="flex items-center gap-2">
-                    <span class="text-lg">🎯</span>
+                    <span class="text-primary-600"><i class="fa-solid fa-crosshairs"></i></span>
                     <h3 class="font-bold text-slate-800">Hasil Deteksi AI</h3>
-                    <span id="confidenceBadge" class="ml-auto badge-green text-xs"></span>
                 </div>
             </div>
 
             <div class="p-5 space-y-4">
                 {{-- Food Name --}}
                 <div class="text-center py-4">
-                    <p class="text-3xl mb-1">🍽️</p>
+                    <p class="text-3xl mb-1 text-slate-600"><i class="fa-solid fa-utensils"></i></p>
                     <h4 id="foodName" class="text-xl font-bold text-slate-800"></h4>
-                    <p id="confidenceText" class="text-sm text-slate-500 mt-1"></p>
                 </div>
 
                 {{-- Nutrition per 100g --}}
@@ -179,9 +165,7 @@
                     </div>
 
                     <button type="submit" class="btn-primary w-full">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
+                        <i class="fa-solid fa-floppy-disk mr-1.5"></i>
                         Simpan ke Jurnal
                     </button>
                 </form>
@@ -190,7 +174,7 @@
 
         {{-- Instructions (shown when no result) --}}
         <div id="instructionsPanel" class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-            <h3 class="font-bold text-slate-800 mb-4">📋 Cara Menggunakan</h3>
+            <h3 class="font-bold text-slate-800 mb-4"><i class="fa-solid fa-clipboard-list mr-1"></i> Cara Menggunakan</h3>
             <ol class="space-y-3">
                 @foreach([
                     ['Buka kamera atau upload foto makanan Anda', '1'],
@@ -208,7 +192,7 @@
 
             <div class="mt-5 p-3 bg-amber-50 rounded-xl border border-amber-200">
                 <p class="text-xs text-amber-700">
-                    💡 <strong>Tips:</strong> Foto makanan dari sudut atas dengan pencahayaan yang baik untuk hasil terbaik. Pastikan seluruh makanan terlihat jelas.
+                    <i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i> <strong>Tips:</strong> Foto makanan dari sudut atas dengan pencahayaan yang baik untuk hasil terbaik. Pastikan seluruh makanan terlihat jelas.
                 </p>
             </div>
         </div>
@@ -216,9 +200,7 @@
         {{-- Error Panel --}}
         <div id="errorPanel" class="bg-red-50 border border-red-200 rounded-2xl p-5" style="display:none;">
             <div class="flex gap-3">
-                <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-                </svg>
+                <i class="fa-solid fa-circle-xmark text-red-500 text-lg flex-shrink-0 mt-0.5"></i>
                 <div>
                     <p class="font-semibold text-red-800">Prediksi Gagal</p>
                     <p id="errorMessage" class="text-sm text-red-700 mt-1"></p>
@@ -357,8 +339,6 @@ btnAnalyze.addEventListener('click', async () => {
             baseProtein = parseFloat(data.protein);
 
             document.getElementById('foodName').textContent = data.food_name;
-            document.getElementById('confidenceBadge').textContent = `${(data.confidence * 100).toFixed(1)}% yakin`;
-            document.getElementById('confidenceText').textContent = `Tingkat keyakinan AI: ${(data.confidence * 100).toFixed(1)}%`;
 
             document.getElementById('hiddenFoodName').value = data.food_name;
             document.getElementById('hiddenCalories').value = data.calories;
@@ -372,10 +352,14 @@ btnAnalyze.addEventListener('click', async () => {
         } else {
             document.getElementById('errorMessage').textContent = data.message || 'Terjadi kesalahan.';
             showElement(document.getElementById('errorPanel'));
+            hideElement(document.getElementById('resultPanel'));
+            showElement(document.getElementById('instructionsPanel'));
         }
     } catch (e) {
         document.getElementById('errorMessage').textContent = 'Tidak dapat terhubung ke server. Periksa koneksi internet Anda.';
         showElement(document.getElementById('errorPanel'));
+        hideElement(document.getElementById('resultPanel'));
+        showElement(document.getElementById('instructionsPanel'));
     } finally {
         hideElement(scanOverlay);
         enableAnalyze();

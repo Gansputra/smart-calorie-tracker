@@ -1,7 +1,9 @@
 @extends('layouts.admin')
 
 @section('title', 'Admin Dashboard')
-@section('page-title', '⚙️ Dashboard Admin')
+@section('page-title')
+    <i class="fa-solid fa-gear mr-1.5"></i> Dashboard Admin
+@endsection
 @section('page-subtitle', 'Ringkasan dan statistik aplikasi Smart Calorie Tracker')
 
 @section('content')
@@ -12,9 +14,7 @@
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 card-hover">
             <div class="flex items-center justify-between mb-3">
                 <div class="w-10 h-10 rounded-xl stat-gradient-blue flex items-center justify-center">
-                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
+                    <i class="fa-solid fa-users text-white text-lg"></i>
                 </div>
             </div>
             <p class="text-3xl font-bold text-slate-800">{{ $totalUsers }}</p>
@@ -24,9 +24,7 @@
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 card-hover">
             <div class="flex items-center justify-between mb-3">
                 <div class="w-10 h-10 rounded-xl stat-gradient-green flex items-center justify-center">
-                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                    </svg>
+                    <i class="fa-solid fa-clipboard-list text-white text-lg"></i>
                 </div>
             </div>
             <p class="text-3xl font-bold text-slate-800">{{ number_format($totalFoodLogs) }}</p>
@@ -36,9 +34,7 @@
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 card-hover">
             <div class="flex items-center justify-between mb-3">
                 <div class="w-10 h-10 rounded-xl stat-gradient-orange flex items-center justify-center">
-                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                    </svg>
+                    <i class="fa-solid fa-pizza-slice text-white text-lg"></i>
                 </div>
             </div>
             <p class="text-3xl font-bold text-slate-800">{{ $totalFoods }}</p>
@@ -48,9 +44,7 @@
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 card-hover">
             <div class="flex items-center justify-between mb-3">
                 <div class="w-10 h-10 rounded-xl stat-gradient-purple flex items-center justify-center">
-                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                    </svg>
+                    <i class="fa-solid fa-user-shield text-white text-lg"></i>
                 </div>
             </div>
             <p class="text-3xl font-bold text-slate-800">{{ $totalAdmins }}</p>
@@ -63,7 +57,7 @@
         {{-- Recent Users --}}
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100">
             <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
-                <h3 class="font-bold text-slate-800">👥 User Terbaru</h3>
+                <h3 class="font-bold text-slate-800"><i class="fa-solid fa-users mr-1"></i> User Terbaru</h3>
                 <a href="{{ route('admin.users.index') }}" class="text-xs text-primary-600 hover:underline">Lihat Semua →</a>
             </div>
             <div class="p-2">
@@ -84,13 +78,13 @@
         {{-- Recent Food Logs --}}
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100">
             <div class="px-5 py-4 border-b border-slate-100">
-                <h3 class="font-bold text-slate-800">🍽️ Aktivitas Terbaru</h3>
+                <h3 class="font-bold text-slate-800"><i class="fa-solid fa-clock-rotate-left mr-1"></i> Aktivitas Terbaru</h3>
             </div>
             <div class="p-2">
                 @foreach($recentLogs as $log)
                     <div class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50">
                         <div class="w-9 h-9 rounded-xl bg-primary-50 flex items-center justify-center flex-shrink-0">
-                            <span class="text-sm">🍴</span>
+                            <span class="text-sm text-slate-500"><i class="fa-solid fa-utensils"></i></span>
                         </div>
                         <div class="min-w-0 flex-1">
                             <p class="font-medium text-slate-800 text-sm truncate">{{ $log->food_name }}</p>
@@ -99,7 +93,7 @@
                         <div class="text-right flex-shrink-0">
                             <p class="text-xs font-semibold text-primary-600">{{ number_format($log->calories, 0) }} kkal</p>
                             @if($log->ai_detected)
-                                <span class="badge-green text-[10px]">AI</span>
+                                <span class="badge-green text-[10px]"><i class="fa-solid fa-wand-magic-sparkles mr-0.5"></i> AI</span>
                             @endif
                         </div>
                     </div>

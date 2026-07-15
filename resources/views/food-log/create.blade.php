@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Tambah Makanan Manual')
-@section('page-title', '➕ Tambah Makanan Manual')
+@section('page-title')
+    <i class="fa-solid fa-plus mr-1.5"></i> Tambah Makanan Manual
+@endsection
 @section('page-subtitle', 'Masukkan data makanan secara manual ke jurnal')
 
 @section('content')
@@ -116,10 +118,7 @@
 
             <div class="flex gap-3 pt-2">
                 <button type="submit" class="btn-primary flex-1">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                    </svg>
-                    Simpan
+                    <i class="fa-solid fa-floppy-disk mr-1.5"></i> Simpan
                 </button>
                 <a href="{{ route('food-log.index') }}" class="btn-secondary">Batal</a>
             </div>

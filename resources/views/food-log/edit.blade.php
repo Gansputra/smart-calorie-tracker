@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Edit Catatan Makanan')
-@section('page-title', '✏️ Edit Catatan Makanan')
+@section('page-title')
+    <i class="fa-solid fa-pen-to-square mr-1.5"></i> Edit Catatan Makanan
+@endsection
 @section('page-subtitle', 'Perbarui informasi catatan makanan Anda')
 
 @section('content')
@@ -76,7 +78,9 @@
             </div>
 
             <div class="flex gap-3 pt-2">
-                <button type="submit" class="btn-primary flex-1">Simpan Perubahan</button>
+                <button type="submit" class="btn-primary flex-1">
+                    <i class="fa-solid fa-floppy-disk mr-1.5"></i> Simpan Perubahan
+                </button>
                 <a href="{{ route('food-log.index', ['date' => $foodLog->date->format('Y-m-d')]) }}"
                    class="btn-secondary">Batal</a>
             </div>

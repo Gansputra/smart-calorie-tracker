@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Profil Saya')
-@section('page-title', '👤 Profil Saya')
+@section('page-title')
+    <i class="fa-solid fa-user mr-1.5"></i> Profil Saya
+@endsection
 @section('page-subtitle', 'Kelola informasi akun dan target nutrisi Anda')
 
 @section('content')
@@ -10,9 +12,7 @@
     {{-- Profile Info Card --}}
     <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
         <h3 class="font-bold text-slate-800 mb-5 flex items-center gap-2">
-            <svg class="w-5 h-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
+            <i class="fa-solid fa-user text-primary-600"></i>
             Informasi Profil
         </h3>
 
@@ -24,12 +24,10 @@
             <div class="flex items-center gap-5">
                 <div class="relative">
                     <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}"
-                         class="w-20 h-20 rounded-2xl object-cover border-2 border-slate-100 shadow-sm"
-                         id="avatarPreview">
+                          class="w-20 h-20 rounded-2xl object-cover border-2 border-slate-100 shadow-sm"
+                          id="avatarPreview">
                     <label class="absolute -bottom-1 -right-1 w-7 h-7 bg-primary-600 rounded-lg flex items-center justify-center cursor-pointer hover:bg-primary-700 shadow-lg">
-                        <svg class="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                        </svg>
+                        <i class="fa-solid fa-plus text-white text-xs"></i>
                         <input type="file" name="avatar" accept="image/*" class="hidden" id="avatarInput">
                     </label>
                 </div>
@@ -88,7 +86,7 @@
 
             {{-- Targets --}}
             <div class="bg-slate-50 rounded-xl p-4">
-                <p class="text-sm font-semibold text-slate-600 mb-3">🎯 Target Harian</p>
+                <p class="text-sm font-semibold text-slate-600 mb-3"><i class="fa-solid fa-bullseye mr-1 text-slate-500"></i> Target Harian</p>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label for="calorie_target" class="form-label text-xs">Target Kalori (kkal)</label>
@@ -108,9 +106,7 @@
             </div>
 
             <button type="submit" class="btn-primary">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
+                <i class="fa-solid fa-floppy-disk mr-1.5"></i>
                 Simpan Profil
             </button>
         </form>
@@ -119,9 +115,7 @@
     {{-- Change Password --}}
     <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
         <h3 class="font-bold text-slate-800 mb-5 flex items-center gap-2">
-            <svg class="w-5 h-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
+            <i class="fa-solid fa-lock text-orange-500"></i>
             Ganti Password
         </h3>
 
@@ -156,9 +150,7 @@
             </div>
 
             <button type="submit" class="btn-primary">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
+                <i class="fa-solid fa-floppy-disk mr-1.5"></i>
                 Perbarui Password
             </button>
         </form>

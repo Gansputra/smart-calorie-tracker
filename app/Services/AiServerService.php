@@ -52,38 +52,49 @@ class AiServerService
             $response = $this->client->post('/predict', [
                 'multipart' => [
                     [
-                        'name'     => 'image',
+                        'name'     => 'file',
                         'contents' => fopen($image->getRealPath(), 'r'),
                         'filename' => $image->getClientOriginalName(),
                     ],
                 ],
             ]);
 
-            $data = json_decode($response->getBody()->getContents(), true);
+            $contents = $response->getBody()->getContents();
+            $data = json_decode($contents, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
                 Log::error('AiServerService: Invalid JSON response', [
-                    'body' => $response->getBody()->getContents(),
+                    'body' => $contents,
                 ]);
 
                 return $this->errorResponse('Respons dari AI Server tidak valid.');
             }
 
-            return $data;
+            if (isset($data['status']) && $data['status'] === 'error') {
+                return $this->errorResponse('Gagal memprediksi makanan. Silakan coba gunakan gambar lain dengan pencahayaan yang lebih baik.');
+            }
+
+            return [
+                'success'    => true,
+                'food_name'  => $data['nama_makanan'] ?? 'Unknown',
+                'calories'   => (float) ($data['kalori_dasar'] ?? 0),
+                'protein'    => (float) ($data['protein_dasar'] ?? 0),
+                'confidence' => (float) ($data['confidence'] ?? 0),
+            ];
         } catch (ConnectException $e) {
             Log::warning('AiServerService: Cannot connect to AI Server', [
                 'url'   => $this->baseUrl,
                 'error' => $e->getMessage(),
             ]);
 
-            return $this->errorResponse('AI Server tidak dapat dijangkau. Pastikan server AI sedang berjalan.');
+            return $this->errorResponse('Server Mati — Silakan hubungi admin atau aktifkan server AI Anda.');
         } catch (RequestException $e) {
             Log::error('AiServerService: Request failed', [
                 'status' => $e->hasResponse() ? $e->getResponse()->getStatusCode() : null,
                 'error'  => $e->getMessage(),
             ]);
 
-            return $this->errorResponse('Terjadi kesalahan saat memproses gambar di AI Server.');
+            return $this->errorResponse('Terjadi kesalahan saat memproses gambar.');
         } catch (\Exception $e) {
             Log::error('AiServerService: Unexpected error', [
                 'error' => $e->getMessage(),
@@ -95,25 +106,33 @@ class AiServerService
 
     /**
      * Check if the AI server is online.
+     *
+     * Uses a raw socket connection test to avoid noisy HTTP logs
+     * (e.g. "GET / 404") in the FastAPI terminal.
      */
     public function healthCheck(): array
     {
-        try {
-            $response = $this->client->get('/health');
-            $data = json_decode($response->getBody()->getContents(), true);
+        $parsed = parse_url($this->baseUrl);
+        $host = $parsed['host'] ?? '127.0.0.1';
+        $port = $parsed['port'] ?? 8080;
+
+        $socket = @fsockopen($host, $port, $errno, $errstr, 1.5);
+
+        if ($socket) {
+            fclose($socket);
 
             return [
                 'online'  => true,
-                'status'  => $data['status'] ?? 'ok',
-                'message' => $data['message'] ?? 'AI Server is running',
-            ];
-        } catch (\Exception $e) {
-            return [
-                'online'  => false,
-                'status'  => 'offline',
-                'message' => 'AI Server tidak dapat dijangkau.',
+                'status'  => 'online',
+                'message' => 'AI Server is running',
             ];
         }
+
+        return [
+            'online'  => false,
+            'status'  => 'offline',
+            'message' => 'AI Server tidak dapat dijangkau.',
+        ];
     }
 
     /**

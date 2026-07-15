@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Jurnal Makanan')
-@section('page-title', '📋 Jurnal Makanan')
+@section('page-title')
+    <i class="fa-solid fa-clipboard-list mr-1.5"></i> Jurnal Makanan
+@endsection
 @section('page-subtitle', 'Catatan asupan makan harian Anda')
 
 @section('content')
@@ -12,9 +14,7 @@
         <div class="flex items-center gap-3">
             <a href="{{ route('food-log.index', ['date' => \Carbon\Carbon::parse($date)->subDay()->format('Y-m-d')]) }}"
                class="p-2 rounded-lg bg-white border border-slate-200 text-slate-500 hover:bg-slate-50">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
+                <i class="fa-solid fa-chevron-left text-xs"></i>
             </a>
             <div class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg">
                 <input type="date" id="dateFilter" value="{{ $date }}"
@@ -23,15 +23,13 @@
             @if($date !== today()->format('Y-m-d'))
             <a href="{{ route('food-log.index', ['date' => \Carbon\Carbon::parse($date)->addDay()->format('Y-m-d')]) }}"
                class="p-2 rounded-lg bg-white border border-slate-200 text-slate-500 hover:bg-slate-50">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
+                <i class="fa-solid fa-chevron-right text-xs"></i>
             </a>
             @endif
         </div>
         <div class="flex gap-2">
-            <a href="{{ route('scanner.index') }}" class="btn-primary btn-sm text-sm">📸 Scan AI</a>
-            <a href="{{ route('food-log.create') }}" class="btn-secondary btn-sm text-sm">+ Tambah Manual</a>
+            <a href="{{ route('scanner.index') }}" class="btn-primary btn-sm text-sm"><i class="fa-solid fa-camera mr-1"></i> Scan AI</a>
+            <a href="{{ route('food-log.create') }}" class="btn-secondary btn-sm text-sm"><i class="fa-solid fa-plus mr-1"></i> Tambah Manual</a>
         </div>
     </div>
 
@@ -68,13 +66,13 @@
     </div>
 
     {{-- Logs by Meal Type --}}
-    @php $mealEmojis = ['Sarapan' => '🌅', 'Makan Siang' => '☀️', 'Makan Malam' => '🌙', 'Camilan' => '🍎']; @endphp
+    @php $mealIcons = ['Sarapan' => 'fa-solid fa-sun', 'Makan Siang' => 'fa-solid fa-cloud-sun', 'Makan Malam' => 'fa-solid fa-moon', 'Camilan' => 'fa-solid fa-apple-whole']; @endphp
 
     @foreach($logs_by_meal as $mealType => $mealData)
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100">
             <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
                 <div class="flex items-center gap-2">
-                    <span class="text-lg">{{ $mealEmojis[$mealType] }}</span>
+                    <span class="text-slate-500"><i class="{{ $mealIcons[$mealType] }}"></i></span>
                     <h3 class="font-bold text-slate-800">{{ $mealType }}</h3>
                     @if($mealData['logs']->count() > 0)
                         <span class="badge-green text-xs ml-1">{{ $mealData['logs']->count() }} makanan</span>
@@ -115,7 +113,7 @@
                                     <td class="font-semibold text-blue-600">{{ number_format($log->protein, 1) }}g</td>
                                     <td>
                                         @if($log->ai_detected)
-                                            <span class="badge-green text-[10px]">🤖 AI</span>
+                                            <span class="badge-green text-[10px]"><i class="fa-solid fa-wand-magic-sparkles mr-0.5"></i> AI</span>
                                         @else
                                             <span class="badge bg-slate-100 text-slate-500 text-[10px]">Manual</span>
                                         @endif
@@ -124,18 +122,14 @@
                                         <div class="flex items-center justify-end gap-1">
                                             <a href="{{ route('food-log.edit', $log) }}"
                                                class="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50">
-                                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                </svg>
+                                                <i class="fa-solid fa-pen-to-square"></i>
                                             </a>
                                             <form method="POST" action="{{ route('food-log.destroy', $log) }}"
                                                   onsubmit="return confirm('Hapus catatan ini?')">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50">
-                                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                    </svg>
+                                                    <i class="fa-solid fa-trash"></i>
                                                 </button>
                                             </form>
                                         </div>
