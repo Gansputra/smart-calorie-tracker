@@ -1,66 +1,155 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Smart Calorie Tracker
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Smart Calorie Tracker** adalah aplikasi web modern yang membantu pengguna mencatat konsumsi makanan harian, menghitung kalori dan protein, serta memantau berat badan (Fat Loss Tracker). Aplikasi ini menggunakan fitur **AI Food Scanner** untuk mendeteksi makanan secara otomatis dari foto kamera atau unggahan berkas.
 
-## About Laravel
+Aplikasi ini dibangun menggunakan arsitektur **decoupled** yang memisahkan antara Web Application (Laravel 12) dan AI Server (FastAPI). Laravel murni bertindak sebagai klien REST API dan tidak menjalankan model AI secara langsung.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Prasyarat (Prerequisites)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Pastikan sistem Anda sudah terpasang:
+*   **PHP 8.4+**
+*   **Composer**
+*   **Node.js & npm** (untuk aset Tailwind CSS v4)
+*   **Python 3.13+** (untuk AI Server)
+*   **MySQL Database Server**
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Prosedur Instalasi & Menjalankan Aplikasi
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Setelah melakukan `git clone` dari repositori GitHub, ikuti langkah-langkah setup di bawah ini:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Bagian 1: Konfigurasi Web Application (Laravel 12)
 
-## Laravel Sponsors
+1.  **Masuk ke direktori utama proyek:**
+    ```bash
+    cd smart-calorie-tracker
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2.  **Instal dependensi PHP:**
+    ```bash
+    composer install
+    ```
 
-### Premium Partners
+3.  **Salin berkas konfigurasi lingkungan (.env):**
+    ```bash
+    copy .env.example .env
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+4.  **Buat Application Key:**
+    ```bash
+    php artisan key:generate
+    ```
 
-## Contributing
+5.  **Konfigurasi Database di berkas `.env`:**
+    Buka berkas `.env` Anda dan sesuaikan konfigurasi koneksi database MySQL:
+    ```env
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=smart_calorie_tracker
+    DB_USERNAME=root
+    DB_PASSWORD=
+    ```
+    *Pastikan database dengan nama `smart_calorie_tracker` sudah dibuat di MySQL Anda.*
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+6.  **Jalankan migrasi database dan pengisian data awal (seeding):**
+    ```bash
+    php artisan migrate:fresh --seed
+    ```
 
-## Code of Conduct
+7.  **Instal dependensi JavaScript & bangun aset CSS:**
+    ```bash
+    npm install
+    npm run build
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+8.  **Hubungkan storage link untuk penyimpanan berkas avatar/gambar:**
+    ```bash
+    php artisan storage:link
+    ```
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Bagian 2: Konfigurasi AI Server (FastAPI)
 
-## License
+1.  **Masuk ke direktori `ai-server`:**
+    ```bash
+    cd ai-server
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+2.  **Buat Virtual Environment Python:**
+    ```bash
+    python -m venv venv
+    ```
+
+3.  **Aktifkan Virtual Environment:**
+    *   **Windows (PowerShell):**
+        ```powershell
+        .\venv\Scripts\Activate.ps1
+        ```
+    *   **Windows (CMD):**
+        ```cmd
+        .\venv\Scripts\activate.bat
+        ```
+    *   **Linux / macOS:**
+        ```bash
+        source venv/bin/activate
+        ```
+
+4.  **Instal dependensi Python:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+5.  **Salin berkas konfigurasi (.env):**
+    ```bash
+    copy .env.example .env
+    ```
+
+---
+
+## Menjalankan Aplikasi
+
+Aplikasi harus dijalankan secara bersamaan menggunakan dua terminal terpisah:
+
+### 1. Jalankan AI Server (FastAPI)
+Buka terminal baru, masuk ke direktori `ai-server`, aktifkan `venv`, lalu jalankan Uvicorn:
+```bash
+cd ai-server
+# Aktifkan venv Anda terlebih dahulu (sesuai OS di atas)
+uvicorn main:app --host 127.0.0.1 --port 8001 --reload
+```
+AI Server akan berjalan di `http://127.0.0.1:8001`. Anda bisa mengakses Swagger API Docs di `http://127.0.0.1:8001/docs`.
+
+### 2. Jalankan Web Server Laravel
+Buka terminal lainnya di direktori utama `smart-calorie-tracker`:
+```bash
+php artisan serve
+```
+Aplikasi web dapat diakses di browser melalui tautan: **`http://127.0.0.1:8000`**
+
+---
+
+## Akun Demo (Default Credentials)
+
+Database Anda telah otomatis diisi dengan akun percobaan berikut setelah menjalankan perintah seed:
+
+*   **Akun Demo User (Akses Jurnal & Tracker):**
+    *   **Email:** `demo@smartcalorietracker.com`
+    *   **Password:** `demo123`
+*   **Akun Administrator (Akses Admin Panel & Master Makanan):**
+    *   **Email:** `admin@smartcalorietracker.com`
+    *   **Password:** `admin123`
+
+---
+
+## Menjalankan Pengujian (Testing)
+
+Untuk memastikan seluruh sistem berjalan dengan benar (termasuk verifikasi koneksi HTTP ke AI Server), Anda dapat menjalankan pengujian otomatis di direktori utama Laravel:
+```bash
+php artisan test
+```
+*(Pastikan AI Server sudah berjalan pada port 8001 sebelum menjalankan pengujian).*
