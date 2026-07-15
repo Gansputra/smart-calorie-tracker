@@ -1,0 +1,551 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source "../**/*.blade.php";
+@source "../**/*.js";
+
+@theme {
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+    /* Custom Color Palette — Green/White/Grey theme */
+    --color-primary-50: #f0fdf4;
+    --color-primary-100: #dcfce7;
+    --color-primary-200: #bbf7d0;
+    --color-primary-300: #86efac;
+    --color-primary-400: #4ade80;
+    --color-primary-500: #22c55e;
+    --color-primary-600: #16a34a;
+    --color-primary-700: #15803d;
+    --color-primary-800: #166534;
+    --color-primary-900: #14532d;
+    
+    /* Default sidebar background */
+    --color-sidebar: #0f172a;
+}
+
+/* =====================================================
+   Custom scrollbar
+===================================================== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+/* =====================================================
+   Progress bar animation
+===================================================== */
+@keyframes progressFill {
+    from { width: 0%; }
+}
+.progress-bar {
+    animation: progressFill 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* =====================================================
+   Pulse animation for AI scanning
+===================================================== */
+@keyframes scanPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.05); }
+}
+.scan-pulse {
+    animation: scanPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* =====================================================
+   Stat card gradient backgrounds
+===================================================== */
+.stat-gradient-green {
+    background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+}
+.stat-gradient-blue {
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+}
+.stat-gradient-orange {
+    background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
+}
+.stat-gradient-purple {
+    background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+}
+
+/* =====================================================
+   Sidebar navigation link
+===================================================== */
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    color: #cbd5e1;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 150ms, color 150ms;
+}
+.sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+.sidebar-link.active {
+    background-color: #16a34a;
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(22, 163, 74, 0.3);
+}
+
+/* =====================================================
+   Card hover animation
+===================================================== */
+.card-hover {
+    transition: box-shadow 200ms, transform 200ms;
+}
+.card-hover:hover {
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    transform: translateY(-2px);
+}
+
+/* =====================================================
+   Form inputs
+===================================================== */
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    background-color: #fff;
+    color: #1e293b;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 150ms, box-shadow 150ms;
+}
+.form-input:focus {
+    border-color: #22c55e;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+}
+.form-input::placeholder {
+    color: #94a3b8;
+}
+select.form-input {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+.form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.375rem;
+}
+
+/* =====================================================
+   Buttons
+===================================================== */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #16a34a;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    border: none;
+    cursor: pointer;
+    font-size: 0.875rem;
+    box-shadow: 0 4px 14px rgba(22, 163, 74, 0.3);
+    transition: background-color 150ms, transform 100ms;
+    text-decoration: none;
+}
+.btn-primary:hover { background-color: #15803d; }
+.btn-primary:active { transform: scale(0.97); }
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #f1f5f9;
+    color: #374151;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    border: none;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: background-color 150ms;
+    text-decoration: none;
+}
+.btn-secondary:hover { background-color: #e2e8f0; }
+.btn-secondary:active { transform: scale(0.97); }
+
+.btn-danger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #fef2f2;
+    color: #dc2626;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: background-color 150ms;
+}
+.btn-danger:hover { background-color: #fee2e2; }
+
+.btn-sm {
+    padding: 0.375rem 0.875rem !important;
+}
+
+/* =====================================================
+   Badges
+===================================================== */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.badge-green {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background-color: #dcfce7;
+    color: #15803d;
+}
+
+/* =====================================================
+   Alerts
+===================================================== */
+.alert-success {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background-color: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 0.75rem;
+    color: #166534;
+}
+.alert-error {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 0.75rem;
+    color: #991b1b;
+}
+.alert-warning {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background-color: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 0.75rem;
+    color: #92400e;
+}
+
+/* =====================================================
+   Data Tables
+===================================================== */
+.table-container {
+    overflow-x: auto;
+    border-radius: 0.75rem;
+    border: 1px solid #f1f5f9;
+}
+table.data-table {
+    width: 100%;
+    font-size: 0.875rem;
+    border-collapse: collapse;
+}
+table.data-table thead {
+    background-color: #f8fafc;
+}
+table.data-table th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+table.data-table td {
+    padding: 0.75rem 1rem;
+    color: #374151;
+    border-top: 1px solid #f8fafc;
+}
+table.data-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/* =====================================================
+   Sidebar Styles (Default - Light Mode)
+   ===================================================== */
+.app-sidebar, .admin-sidebar {
+    background-color: #ffffff;
+    border-right: 1px solid #e2e8f0;
+    transition: background-color 150ms, border-color 150ms;
+}
+.app-sidebar .border-b,
+.app-sidebar .border-t,
+.admin-sidebar .border-b,
+.admin-sidebar .border-t {
+    border-color: #e2e8f0 !important;
+    transition: border-color 150ms;
+}
+.app-sidebar p.text-white,
+.admin-sidebar p.text-white {
+    color: #0f172a !important;
+    transition: color 150ms;
+}
+.app-sidebar p.text-slate-400,
+.admin-sidebar p.text-slate-400 {
+    color: #64748b !important;
+    transition: color 150ms;
+}
+.sidebar-link {
+    color: #475569;
+}
+.sidebar-link:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+.sidebar-link.active {
+    background-color: #16a34a;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(22, 163, 74, 0.3);
+}
+.admin-sidebar .badge {
+    background-color: #f5f3ff !important;
+    color: #7c3aed !important;
+}
+.app-sidebar button[type="submit"],
+.admin-sidebar button[type="submit"] {
+    color: #64748b !important;
+}
+.app-sidebar button[type="submit"]:hover,
+.admin-sidebar button[type="submit"]:hover {
+    color: #ef4444 !important;
+    background-color: rgba(239, 68, 68, 0.05) !important;
+}
+
+/* =====================================================
+   Dark Mode Overrides
+   ===================================================== */
+@variant dark {
+    :root {
+        /* Premium deep dark theme backgrounds */
+        --color-slate-50: #090d16; /* page body background */
+        --color-slate-100: #111827; /* alternate background/border */
+        --color-slate-200: #1f2937; /* borders/lines */
+        --color-slate-300: #374151; /* strong lines */
+        
+        /* High contrast bright text colors for legibility */
+        --color-slate-400: #9ca3af; /* muted subtext */
+        --color-slate-500: #cbd5e1; /* subtext */
+        --color-slate-600: #cbd5e1; /* normal text */
+        --color-slate-700: #e5e7eb; /* readable body text */
+        --color-slate-800: #f9fafb; /* headings */
+        --color-slate-900: #ffffff; /* titles */
+        --color-slate-950: #ffffff;
+    }
+
+    /* Force background colors */
+    body, .bg-slate-50, .bg-gray-50, .bg-zinc-50, .bg-neutral-50 {
+        background-color: #090d16 !important;
+    }
+    
+    .bg-white {
+        background-color: #111827 !important;
+    }
+
+    .bg-slate-100, .bg-gray-100, .bg-zinc-100, .bg-neutral-100 {
+        background-color: #1f2937 !important;
+    }
+
+    /* Force text colors to be bright/readable in dark mode */
+    .text-slate-900, .text-gray-900, .text-zinc-900, .text-neutral-900 {
+        color: #ffffff !important;
+    }
+    .text-slate-800, .text-gray-800, .text-zinc-800, .text-neutral-800 {
+        color: #f9fafb !important;
+    }
+    .text-slate-700, .text-gray-700, .text-zinc-700, .text-neutral-700 {
+        color: #e5e7eb !important;
+    }
+    .text-slate-600, .text-gray-600, .text-zinc-600, .text-neutral-600 {
+        color: #cbd5e1 !important;
+    }
+    .text-slate-500, .text-gray-500, .text-zinc-500, .text-neutral-500 {
+        color: #9ca3af !important;
+    }
+    .text-slate-400, .text-gray-400, .text-zinc-400, .text-neutral-400 {
+        color: #9ca3af !important;
+    }
+
+    /* Force border colors */
+    .border-slate-100, .border-gray-100, .border-zinc-100, .border-neutral-100,
+    .border-slate-200, .border-gray-200, .border-zinc-200, .border-neutral-200 {
+        border-color: #1f2937 !important;
+    }
+
+    /* Fix header borders */
+    header.sticky {
+        border-bottom-color: #1f2937 !important;
+    }
+
+    /* App & Admin Sidebars in Dark Mode */
+    .app-sidebar, .admin-sidebar {
+        background-color: #090d16 !important;
+        border-right: 1px solid #1f2937 !important;
+    }
+    .app-sidebar .border-b,
+    .app-sidebar .border-t,
+    .admin-sidebar .border-b,
+    .admin-sidebar .border-t {
+        border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+    .app-sidebar p.text-white,
+    .admin-sidebar p.text-white {
+        color: #ffffff !important;
+    }
+    .app-sidebar p.text-slate-400,
+    .admin-sidebar p.text-slate-400 {
+        color: #94a3b8 !important;
+    }
+    .sidebar-link {
+        color: #cbd5e1 !important;
+    }
+    .sidebar-link:hover {
+        background-color: rgba(255, 255, 255, 0.06) !important;
+        color: #ffffff !important;
+    }
+    .sidebar-link.active {
+        background-color: #16a34a !important;
+        color: #ffffff !important;
+    }
+    .admin-sidebar .badge {
+        background-color: rgba(139, 92, 246, 0.2) !important;
+        color: #a78bfa !important;
+    }
+    .app-sidebar button[type="submit"],
+    .admin-sidebar button[type="submit"] {
+        color: #94a3b8 !important;
+    }
+    .app-sidebar button[type="submit"]:hover,
+    .admin-sidebar button[type="submit"]:hover {
+        color: #f87171 !important;
+        background-color: rgba(239, 68, 68, 0.1) !important;
+    }
+
+    /* Custom form elements */
+    .form-input {
+        background-color: #1f2937 !important;
+        border-color: #374151 !important;
+        color: #f9fafb !important;
+    }
+    .form-input:focus {
+        border-color: #22c55e !important;
+        box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25) !important;
+    }
+    .form-label {
+        color: #e5e7eb !important;
+    }
+
+    /* Custom buttons */
+    .btn-secondary {
+        background-color: #1f2937 !important;
+        color: #f3f4f6 !important;
+        border: 1px solid #374151 !important;
+    }
+    .btn-secondary:hover {
+        background-color: #374151 !important;
+    }
+
+    /* Custom tables */
+    .table-container {
+        border-color: #1f2937 !important;
+        background-color: #111827 !important;
+    }
+    table.data-table thead {
+        background-color: #1f2937 !important;
+    }
+    table.data-table th {
+        color: #9ca3af !important;
+    }
+    table.data-table td {
+        color: #cbd5e1 !important;
+        border-top-color: #1f2937 !important;
+    }
+    table.data-table tbody tr:hover {
+        background-color: #1f2937 !important;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar-track {
+        background: #111827 !important;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #374151 !important;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #4b5563 !important;
+    }
+    
+    /* Date navigator and standard white card lists */
+    .bg-white.border.border-slate-200 {
+        background-color: #111827 !important;
+        border-color: #1f2937 !important;
+        color: #cbd5e1 !important;
+    }
+
+    /* Dynamic design adjustments for custom alerts in Dark Mode */
+    .alert-success {
+        background-color: rgba(16, 185, 129, 0.1) !important;
+        border-color: rgba(16, 185, 129, 0.2) !important;
+        color: #34d399 !important;
+    }
+    .alert-error {
+        background-color: rgba(239, 68, 68, 0.1) !important;
+        border-color: rgba(239, 68, 68, 0.2) !important;
+        color: #f87171 !important;
+    }
+    .alert-warning {
+        background-color: rgba(245, 158, 11, 0.1) !important;
+        border-color: rgba(245, 158, 11, 0.2) !important;
+        color: #fbbf24 !important;
+    }
+
+    /* Green progress bar in dark mode needs high visibility */
+    .bg-primary-500 {
+        background-color: #22c55e !important;
+    }
+    
+    .badge-green {
+        background-color: rgba(34, 197, 94, 0.2) !important;
+        color: #4ade80 !important;
+    }
+}
+
+
