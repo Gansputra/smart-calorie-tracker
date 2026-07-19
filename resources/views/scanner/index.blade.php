@@ -28,7 +28,7 @@
 
             <div class="p-5 space-y-4">
                 {{-- Camera Preview --}}
-                <div class="relative aspect-video bg-slate-900 rounded-xl overflow-hidden" id="cameraContainer">
+                <div class="relative aspect-video bg-slate-900 rounded-xl overflow-hidden transition-all duration-200" id="cameraContainer">
                     <video id="videoPreview" class="w-full h-full object-cover" autoplay playsinline style="display:none;"></video>
                     <canvas id="photoCanvas" class="hidden"></canvas>
                     <img id="photoPreview" class="w-full h-full object-cover" style="display:none;" alt="Preview">
@@ -36,8 +36,14 @@
                     {{-- Placeholder --}}
                     <div id="cameraPlaceholder" class="absolute inset-0 flex flex-col items-center justify-center text-slate-400">
                         <i class="fa-solid fa-camera text-4xl mb-3"></i>
-                        <p class="text-sm font-medium">Kamera atau upload foto</p>
+                        <p class="text-sm font-medium">Kamera, upload, atau seret foto ke sini</p>
                         <p class="text-xs mt-1">JPEG, PNG, WebP (maks 10MB)</p>
+                    </div>
+
+                    {{-- Drag Overlay Indicator --}}
+                    <div id="dragOverlay" class="absolute inset-0 flex flex-col items-center justify-center bg-primary-900/80 text-white border-2 border-dashed border-primary-400 rounded-xl hidden z-10 pointer-events-none" style="display:none;">
+                        <i class="fa-solid fa-cloud-arrow-up text-4xl mb-2 animate-bounce"></i>
+                        <p class="text-sm font-semibold">Lepaskan gambar di sini</p>
                     </div>
 
                     {{-- Scan overlay --}}
@@ -230,8 +236,64 @@ const btnReset = document.getElementById('btnReset');
 const btnAnalyze = document.getElementById('btnAnalyze');
 const fileInput = document.getElementById('fileInput');
 
+const cameraContainer = document.getElementById('cameraContainer');
+const dragOverlay = document.getElementById('dragOverlay');
+
 function showElement(el) { el.style.display = ''; }
 function hideElement(el) { el.style.display = 'none'; }
+
+function handleFile(file) {
+    if (!file || !file.type.startsWith('image/')) return;
+    capturedBlob = file;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+        photoPreview.src = ev.target.result;
+        showElement(photoPreview);
+        hideElement(video);
+        hideElement(placeholder);
+        if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+        showElement(btnReset);
+        hideElement(btnCamera);
+        hideElement(btnCapture);
+        enableAnalyze();
+    };
+    reader.readAsDataURL(file);
+}
+
+// Drag & Drop
+let dragCounter = 0;
+
+['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    cameraContainer.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+});
+
+cameraContainer.addEventListener('dragenter', () => {
+    dragCounter++;
+    cameraContainer.classList.add('ring-4', 'ring-primary-500/50', 'border-2', 'border-primary-500');
+    showElement(dragOverlay);
+});
+
+cameraContainer.addEventListener('dragleave', () => {
+    dragCounter--;
+    if (dragCounter <= 0) {
+        dragCounter = 0;
+        cameraContainer.classList.remove('ring-4', 'ring-primary-500/50', 'border-2', 'border-primary-500');
+        hideElement(dragOverlay);
+    }
+});
+
+cameraContainer.addEventListener('drop', (e) => {
+    dragCounter = 0;
+    cameraContainer.classList.remove('ring-4', 'ring-primary-500/50', 'border-2', 'border-primary-500');
+    hideElement(dragOverlay);
+    const files = e.dataTransfer ? e.dataTransfer.files : null;
+    if (files && files.length > 0) {
+        handleFile(files[0]);
+    }
+});
 
 // Open camera
 btnCamera.addEventListener('click', async () => {
@@ -268,21 +330,7 @@ btnCapture.addEventListener('click', () => {
 // File upload
 fileInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
-    if (!file) return;
-    capturedBlob = file;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-        photoPreview.src = ev.target.result;
-        showElement(photoPreview);
-        hideElement(video);
-        hideElement(placeholder);
-        if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
-        showElement(btnReset);
-        hideElement(btnCamera);
-        hideElement(btnCapture);
-        enableAnalyze();
-    };
-    reader.readAsDataURL(file);
+    if (file) handleFile(file);
 });
 
 // Reset

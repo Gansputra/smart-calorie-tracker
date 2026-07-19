@@ -22,19 +22,23 @@
 
             {{-- Avatar --}}
             <div class="flex items-center gap-5">
-                <div class="relative">
+                <div class="relative cursor-pointer group" id="avatarContainer">
                     <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}"
-                          class="w-20 h-20 rounded-2xl object-cover border-2 border-slate-100 shadow-sm"
+                          class="w-20 h-20 rounded-2xl object-cover border-2 border-slate-100 shadow-sm transition-all duration-200"
                           id="avatarPreview">
-                    <label class="absolute -bottom-1 -right-1 w-7 h-7 bg-primary-600 rounded-lg flex items-center justify-center cursor-pointer hover:bg-primary-700 shadow-lg">
+                    <label class="absolute -bottom-1 -right-1 w-7 h-7 bg-primary-600 rounded-lg flex items-center justify-center cursor-pointer hover:bg-primary-700 shadow-lg z-20">
                         <i class="fa-solid fa-plus text-white text-xs"></i>
                         <input type="file" name="avatar" accept="image/*" class="hidden" id="avatarInput">
                     </label>
+                    {{-- Drag Hover Overlay --}}
+                    <div id="avatarDragOverlay" class="absolute inset-0 rounded-2xl bg-primary-600/80 text-white flex flex-col items-center justify-center transition-all z-10 pointer-events-none" style="display:none;">
+                        <i class="fa-solid fa-cloud-arrow-up text-xl animate-bounce"></i>
+                    </div>
                 </div>
                 <div>
                     <p class="font-semibold text-slate-800">{{ $user->name }}</p>
                     <p class="text-sm text-slate-500">{{ $user->email }}</p>
-                    <p class="text-xs text-slate-400 mt-1">JPG, PNG, WebP (maks 2MB)</p>
+                    <p class="text-xs text-slate-400 mt-1">JPG, PNG, WebP (maks 2MB) — Klik atau seret foto ke avatar</p>
                 </div>
             </div>
 
@@ -158,13 +162,66 @@
 </div>
 
 <script>
-document.getElementById('avatarInput').addEventListener('change', function() {
-    const file = this.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = e => { document.getElementById('avatarPreview').src = e.target.result; };
-        reader.readAsDataURL(file);
-    }
+const avatarContainer = document.getElementById('avatarContainer');
+const avatarInput = document.getElementById('avatarInput');
+const avatarPreview = document.getElementById('avatarPreview');
+const avatarDragOverlay = document.getElementById('avatarDragOverlay');
+
+function showElement(el) { if(el) el.style.display = ''; }
+function hideElement(el) { if(el) el.style.display = 'none'; }
+
+function updateAvatarPreview(file) {
+    if (!file || !file.type.startsWith('image/')) return;
+
+    try {
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        avatarInput.files = dt.files;
+    } catch(e) {}
+
+    const reader = new FileReader();
+    reader.onload = e => { avatarPreview.src = e.target.result; };
+    reader.readAsDataURL(file);
+}
+
+avatarInput.addEventListener('change', function() {
+    if (this.files[0]) updateAvatarPreview(this.files[0]);
 });
+
+if (avatarContainer) {
+    let dragCounter = 0;
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        avatarContainer.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+    });
+
+    avatarContainer.addEventListener('dragenter', () => {
+        dragCounter++;
+        avatarPreview.classList.add('ring-4', 'ring-primary-400', 'border-primary-500', 'scale-105');
+        showElement(avatarDragOverlay);
+    });
+
+    avatarContainer.addEventListener('dragleave', () => {
+        dragCounter--;
+        if (dragCounter <= 0) {
+            dragCounter = 0;
+            avatarPreview.classList.remove('ring-4', 'ring-primary-400', 'border-primary-500', 'scale-105');
+            hideElement(avatarDragOverlay);
+        }
+    });
+
+    avatarContainer.addEventListener('drop', (e) => {
+        dragCounter = 0;
+        avatarPreview.classList.remove('ring-4', 'ring-primary-400', 'border-primary-500', 'scale-105');
+        hideElement(avatarDragOverlay);
+        const files = e.dataTransfer ? e.dataTransfer.files : null;
+        if (files && files.length > 0) {
+            updateAvatarPreview(files[0]);
+        }
+    });
+}
 </script>
 @endsection
