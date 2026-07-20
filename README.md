@@ -84,7 +84,7 @@ Setelah melakukan `git clone` dari repositori GitHub, ikuti langkah-langkah setu
 
 ### Bagian 2: Konfigurasi AI Server (FastAPI)
 
-1.  **Masuk ke direktori `ai-server`:**
+1.  **Masuk ke direktori `FastAPI`:**
 
     ```bash
     cd FastAPI
@@ -124,7 +124,7 @@ Aplikasi harus dijalankan secara bersamaan menggunakan dua terminal terpisah:
 
 ### 1. Jalankan AI Server (FastAPI)
 
-Buka terminal baru, masuk ke direktori `ai-server`, aktifkan `venv`, lalu jalankan Uvicorn:
+Buka terminal baru, masuk ke direktori `FastAPI`, aktifkan `venv`, lalu jalankan Uvicorn:
 
 ```bash
 cd FastAPI
