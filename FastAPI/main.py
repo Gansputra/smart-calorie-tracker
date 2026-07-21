@@ -5,15 +5,26 @@ import tensorflow as tf
 from PIL import Image
 from fastapi import FastAPI, UploadFile, File
 
-app = FastAPI()
+import joblib
+import os
+from pydantic import BaseModel, Field
+
+app = FastAPI(title="Smart Calorie Tracker AI Server")
 
 MODEL_PATH = "model_cnn.keras"
 CSV_PATH = "nutrition.csv"
+RECOMMENDATION_MODEL_PATH = "target_recommendation_model.pkl"
 
 # 1. Load Model Lokal dan CSV Kamus Nutrisi
 model = tf.keras.models.load_model(MODEL_PATH, compile=False)
 nutrition_df = pd.read_csv(CSV_PATH)
 nutrition_df = nutrition_df.rename(columns={'food_item': 'food_name'})
+
+# Load Model Rekomendasi Target
+recommendation_model = None
+if os.path.exists(RECOMMENDATION_MODEL_PATH):
+    recommendation_model = joblib.load(RECOMMENDATION_MODEL_PATH)
+
 
 # Kamus indeks asli model kelompok bos
 idx_to_class = {
@@ -103,7 +114,65 @@ async def predict_food(file: UploadFile = File(...)):
         }
 
 
+class TargetRecommendationRequest(BaseModel):
+    gender: int = Field(..., description="0 = Female, 1 = Male")
+    age: int = Field(..., ge=10, le=100, description="Usia dalam tahun")
+    weight: float = Field(..., ge=30.0, le=250.0, description="Berat badan dalam kg")
+    height: float = Field(..., ge=100.0, le=250.0, description="Tinggi badan dalam cm")
+    activity_level: int = Field(..., ge=0, le=3, description="0=Sedentary, 1=Light, 2=Moderate, 3=Active")
+    goal: int = Field(..., ge=0, le=2, description="0=Weight Loss, 1=Maintenance, 2=Weight Gain")
+
+
+@app.get("/")
+@app.get("/health")
+def health_check():
+    return {"status": "ok", "message": "AI Server is running"}
+
+
+@app.post("/recommend-target")
+def recommend_target(req: TargetRecommendationRequest):
+    global recommendation_model
+    
+    # Reload model jika baru saja di-train
+    if recommendation_model is None and os.path.exists(RECOMMENDATION_MODEL_PATH):
+        recommendation_model = joblib.load(RECOMMENDATION_MODEL_PATH)
+        
+    if recommendation_model is None:
+        # Fallback rumus jika model belum ada
+        bmr = (10 * req.weight + 6.25 * req.height - 5 * req.age + 5) if req.gender == 1 else (10 * req.weight + 6.25 * req.height - 5 * req.age - 161)
+        pal_map = {0: 1.2, 1: 1.375, 2: 1.55, 3: 1.725}
+        tdee = bmr * pal_map.get(req.activity_level, 1.2)
+        cal_adj = {0: 0.85, 1: 1.0, 2: 1.15}.get(req.goal, 1.0)
+        prot_fact = {0: 2.0, 1: 1.4, 2: 1.8}.get(req.goal, 1.4)
+        
+        return {
+            "status": "success",
+            "recommended_calories": round(tdee * cal_adj),
+            "recommended_protein": round(req.weight * prot_fact),
+            "source": "formula_fallback"
+        }
+
+    input_df = pd.DataFrame([{
+        'gender': req.gender,
+        'age': req.age,
+        'weight': req.weight,
+        'height': req.height,
+        'activity_level': req.activity_level,
+        'goal': req.goal
+    }])
+    
+    prediction = recommendation_model.predict(input_df)[0]
+    
+    return {
+        "status": "success",
+        "recommended_calories": int(round(prediction[0])),
+        "recommended_protein": int(round(prediction[1])),
+        "source": "machine_learning"
+    }
+
+
 # Menjalankan server otomatis di port 8080 agar tidak bentrok dengan Laravel
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="127.0.0.1", port=8080, reload=True)
+

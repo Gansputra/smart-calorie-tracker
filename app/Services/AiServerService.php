@@ -136,6 +136,45 @@ class AiServerService
     }
 
     /**
+     * Get target recommendations (calories and protein) from AI Server.
+     *
+     * @param array{gender: int, age: int, weight: float, height: float, activity_level: int, goal: int} $profileData
+     * @return array{success: bool, recommended_calories?: int, recommended_protein?: int, error?: string}
+     */
+    public function recommendTargets(array $profileData): array
+    {
+        try {
+            $response = $this->client->post('/recommend-target', [
+                'json' => [
+                    'gender'         => (int) $profileData['gender'],
+                    'age'            => (int) $profileData['age'],
+                    'weight'         => (float) $profileData['weight'],
+                    'height'         => (float) $profileData['height'],
+                    'activity_level' => (int) $profileData['activity_level'],
+                    'goal'           => (int) $profileData['goal'],
+                ],
+            ]);
+
+            $contents = $response->getBody()->getContents();
+            $data = json_decode($contents, true);
+
+            if (isset($data['status']) && $data['status'] === 'success') {
+                return [
+                    'success'              => true,
+                    'recommended_calories' => $data['recommended_calories'],
+                    'recommended_protein'  => $data['recommended_protein'],
+                    'source'               => $data['source'] ?? 'machine_learning',
+                ];
+            }
+
+            return ['success' => false, 'error' => 'Gagal mendapatkan rekomendasi AI.'];
+        } catch (\Exception $e) {
+            Log::error('AiServerService recommendTargets error: ' . $e->getMessage());
+            return ['success' => false, 'error' => 'AI Server tidak merespons. Pastikan Uvicorn aktif.'];
+        }
+    }
+
+    /**
      * Build a standardized error response.
      */
     protected function errorResponse(string $message): array

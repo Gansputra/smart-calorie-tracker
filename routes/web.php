@@ -60,6 +60,8 @@ Route::middleware(['auth', 'role:user|admin'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+    Route::post('/profile/recommend-targets', [ProfileController::class, 'recommendTargets'])->name('profile.recommend-targets');
+
 });
 
 /*
