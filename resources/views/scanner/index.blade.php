@@ -11,12 +11,43 @@
 
     {{-- Camera / Upload Panel --}}
     <div class="space-y-4">
-        {{-- AI Status --}}
-        <div class="flex items-center gap-3 px-4 py-3 rounded-xl {{ $aiStatus['online'] ? 'bg-primary-50 border border-primary-200' : 'bg-red-50 border border-red-200' }}">
-            <div class="w-2.5 h-2.5 rounded-full {{ $aiStatus['online'] ? 'bg-primary-500 animate-pulse' : 'bg-red-500' }}"></div>
-            <span class="text-sm font-medium {{ $aiStatus['online'] ? 'text-primary-700' : 'text-red-700' }}">
-                AI Server: {{ $aiStatus['online'] ? 'Online ✓' : 'Offline — AI Server tidak berjalan' }}
-            </span>
+        {{-- AI Server Status Banner --}}
+        <div class="relative overflow-hidden rounded-2xl p-4 transition-all duration-300 {{ $aiStatus['online'] ? 'bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-transparent border border-emerald-500/20 shadow-sm shadow-emerald-500/5 dark:from-emerald-950/40 dark:via-emerald-900/20 dark:to-slate-900/60 dark:border-emerald-500/30' : 'bg-gradient-to-r from-rose-500/10 via-red-500/5 to-transparent border border-rose-500/20 shadow-sm shadow-rose-500/5 dark:from-rose-950/40 dark:via-rose-900/20 dark:to-slate-900/60 dark:border-rose-500/30' }}">
+            {{-- Top Shimmer Border --}}
+            <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r {{ $aiStatus['online'] ? 'from-transparent via-emerald-400/50 to-transparent' : 'from-transparent via-rose-400/50 to-transparent' }}"></div>
+
+            <div class="flex items-center justify-between gap-3 flex-wrap sm:flex-nowrap">
+                <div class="flex items-center gap-3.5">
+                    {{-- Icon Badge with Glow --}}
+                    <div class="relative flex items-center justify-center w-10 h-10 rounded-xl flex-shrink-0 {{ $aiStatus['online'] ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 ring-1 ring-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.2)]' : 'bg-rose-500/15 text-rose-600 dark:text-rose-400 ring-1 ring-rose-500/30 shadow-[0_0_12px_rgba(244,63,94,0.2)]' }}">
+                        <i class="fa-solid {{ $aiStatus['online'] ? 'fa-wand-magic-sparkles text-lg animate-pulse' : 'fa-server text-lg' }}"></i>
+                    </div>
+
+                    <div>
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block">
+                            AI Neural Server
+                        </span>
+                        <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">
+                            {{ $aiStatus['online'] ? 'Sistem Deteksi Makanan AI Aktif' : 'Server AI Luring (Offline)' }}
+                        </p>
+                    </div>
+                </div>
+
+                {{-- Live Status Indicator Dot & Badge --}}
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-full flex-shrink-0 {{ $aiStatus['online'] ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300' : 'bg-rose-500/10 border border-rose-500/20 text-rose-700 dark:text-rose-300' }}">
+                    <span class="relative flex h-2.5 w-2.5">
+                        @if($aiStatus['online'])
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.9)]"></span>
+                        @else
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.9)]"></span>
+                        @endif
+                    </span>
+                    <span class="text-xs font-bold tracking-wide">
+                        {{ $aiStatus['online'] ? 'Online • Ready' : 'Offline' }}
+                    </span>
+                </div>
+            </div>
         </div>
 
         {{-- Camera Section --}}
