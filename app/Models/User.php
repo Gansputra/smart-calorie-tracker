@@ -30,6 +30,8 @@ class User extends Authenticatable
         'age',
         'height',
         'weight',
+        'activity_level',
+        'goal',
     ];
 
     /**

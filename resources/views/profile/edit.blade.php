@@ -733,20 +733,20 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                     <div class="space-y-1.5">
                         <label for="activity_level" class="field-label">Tingkat Aktivitas Harian</label>
-                        <select id="activity_level" class="field-input">
-                            <option value="0">Minimal (Sedentary - Jarang Olahraga)</option>
-                            <option value="1" selected>Ringan (Light - Olahraga 1-3x/minggu)</option>
-                            <option value="2">Sedang (Moderate - Olahraga 3-5x/minggu)</option>
-                            <option value="3">Tinggi (Active - Olahraga 6-7x/minggu)</option>
+                        <select id="activity_level" name="activity_level" class="field-input">
+                            <option value="0" {{ old('activity_level', $user->activity_level ?? 1) == 0 ? 'selected' : '' }}>Minimal (Sedentary - Jarang Olahraga)</option>
+                            <option value="1" {{ old('activity_level', $user->activity_level ?? 1) == 1 ? 'selected' : '' }}>Ringan (Light - Olahraga 1-3x/minggu)</option>
+                            <option value="2" {{ old('activity_level', $user->activity_level ?? 1) == 2 ? 'selected' : '' }}>Sedang (Moderate - Olahraga 3-5x/minggu)</option>
+                            <option value="3" {{ old('activity_level', $user->activity_level ?? 1) == 3 ? 'selected' : '' }}>Tinggi (Active - Olahraga 6-7x/minggu)</option>
                         </select>
                     </div>
 
                     <div class="space-y-1.5">
                         <label for="goal" class="field-label">Tujuan Kesehatan (Goal)</label>
-                        <select id="goal" class="field-input">
-                            <option value="0" selected>Defisit Kalori (Fat Loss / Turun Berat)</option>
-                            <option value="1">Menjaga Berat Badan (Maintenance)</option>
-                            <option value="2">Surplus Kalori (Muscle Gain / Naik Berat)</option>
+                        <select id="goal" name="goal" class="field-input">
+                            <option value="0" {{ old('goal', $user->goal ?? 0) == 0 ? 'selected' : '' }}>Defisit Kalori (Fat Loss / Turun Berat)</option>
+                            <option value="1" {{ old('goal', $user->goal ?? 0) == 1 ? 'selected' : '' }}>Menjaga Berat Badan (Maintenance)</option>
+                            <option value="2" {{ old('goal', $user->goal ?? 0) == 2 ? 'selected' : '' }}>Surplus Kalori (Muscle Gain / Naik Berat)</option>
                         </select>
                     </div>
                 </div>
