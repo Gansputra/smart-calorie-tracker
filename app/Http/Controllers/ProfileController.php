@@ -39,6 +39,9 @@ class ProfileController extends Controller
             'gender'          => ['nullable', 'in:male,female'],
             'age'             => ['nullable', 'integer', 'min:10', 'max:120'],
             'height'          => ['nullable', 'numeric', 'min:50', 'max:300'],
+            'weight'          => ['nullable', 'numeric', 'min:20', 'max:500'],
+            'activity_level' => ['nullable', 'integer', 'in:0,1,2,3'],
+            'goal'           => ['nullable', 'integer', 'in:0,1,2'],
             'avatar'          => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:2048'],
         ], [
             'name.required'   => 'Nama wajib diisi.',
