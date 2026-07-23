@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="Smart Calorie Tracker — Masuk atau daftar untuk mulai melacak kalori Anda">
     <title>@yield('title', 'Masuk') — Smart Calorie Tracker</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}?v=2">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

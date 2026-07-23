@@ -9,6 +9,7 @@
         content="Smart Calorie Tracker - Lacak kalori, protein, dan perkembangan berat badan Anda dengan bantuan AI">
 
     <title>@yield('title', 'Dashboard') — Smart Calorie Tracker</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}?v=2">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
