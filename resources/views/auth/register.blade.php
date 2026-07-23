@@ -70,6 +70,14 @@
             </div>
         </div>
 
+        <!-- Cloudflare Turnstile -->
+        <div class="my-4 flex justify-center">
+            <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}"></div>
+        </div>
+        @error('cf-turnstile-response')
+            <p class="mt-1 text-sm text-red-500 text-center">{{ $message }}</p>
+        @enderror
+
         <!-- Submit -->
         <button type="submit" class="btn-primary w-full">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

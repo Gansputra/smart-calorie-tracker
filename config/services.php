@@ -45,4 +45,9 @@ return [
         'timeout' => env('AI_SERVER_TIMEOUT', 30),
     ],
 
+    'turnstile' => [
+        'site_key'   => env('TURNSTILE_SITE_KEY', '0x4AAAAAAD7nEyLFGqUrBZ5y'),
+        'secret_key' => env('TURNSTILE_SECRET_KEY'),
+    ],
+
 ];

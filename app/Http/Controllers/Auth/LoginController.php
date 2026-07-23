@@ -26,18 +26,26 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $rules = [
             'email'    => ['required', 'email'],
             'password' => ['required'],
-        ], [
-            'email.required'    => 'Email wajib diisi.',
-            'email.email'       => 'Format email tidak valid.',
-            'password.required' => 'Password wajib diisi.',
+        ];
+
+        if (config('services.turnstile.secret_key')) {
+            $rules['cf-turnstile-response'] = ['required', new \App\Rules\Turnstile()];
+        }
+
+        $credentials = $request->validate($rules, [
+            'email.required'                 => 'Email wajib diisi.',
+            'email.email'                    => 'Format email tidak valid.',
+            'password.required'              => 'Password wajib diisi.',
+            'cf-turnstile-response.required' => 'Verifikasi "Saya bukan robot" wajib diselesaikan.',
         ]);
 
         $remember = $request->boolean('remember');
+        $loginData = ['email' => $credentials['email'], 'password' => $credentials['password']];
 
-        if (Auth::attempt($credentials, $remember)) {
+        if (Auth::attempt($loginData, $remember)) {
             $request->session()->regenerate();
 
             return $this->redirectBasedOnRole();

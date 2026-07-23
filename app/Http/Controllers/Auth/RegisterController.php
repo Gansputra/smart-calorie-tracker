@@ -28,20 +28,27 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
-        $validated = $request->validate([
+        $rules = [
             'name'                  => ['required', 'string', 'max:255'],
             'email'                 => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password'              => ['required', 'string', 'min:8', 'confirmed'],
             'calorie_target'        => ['nullable', 'integer', 'min:500', 'max:10000'],
             'protein_target'        => ['nullable', 'integer', 'min:10', 'max:500'],
-        ], [
-            'name.required'         => 'Nama wajib diisi.',
-            'email.required'        => 'Email wajib diisi.',
-            'email.email'           => 'Format email tidak valid.',
-            'email.unique'          => 'Email ini sudah terdaftar.',
-            'password.required'     => 'Password wajib diisi.',
-            'password.min'          => 'Password minimal 8 karakter.',
-            'password.confirmed'    => 'Konfirmasi password tidak cocok.',
+        ];
+
+        if (config('services.turnstile.secret_key')) {
+            $rules['cf-turnstile-response'] = ['required', new \App\Rules\Turnstile()];
+        }
+
+        $validated = $request->validate($rules, [
+            'name.required'                  => 'Nama wajib diisi.',
+            'email.required'                 => 'Email wajib diisi.',
+            'email.email'                    => 'Format email tidak valid.',
+            'email.unique'                   => 'Email ini sudah terdaftar.',
+            'password.required'              => 'Password wajib diisi.',
+            'password.min'                   => 'Password minimal 8 karakter.',
+            'password.confirmed'             => 'Konfirmasi password tidak cocok.',
+            'cf-turnstile-response.required' => 'Verifikasi "Saya bukan robot" wajib diselesaikan.',
         ]);
 
         $user = User::create([
